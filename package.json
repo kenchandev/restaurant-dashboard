@@ -1,0 +1,27 @@
+{
+  "name": "restaurant-dashboard",
+  "version": "1.0.0",
+  "description": "Make smart business decisions with this restaurant dashboard.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenchan23/restaurant-dashboard.git"
+  },
+  "author": "Ken Chan <ken.chan@nyu.edu> (http://kenchan.me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kenchan23/restaurant-dashboard/issues"
+  },
+  "homepage": "https://github.com/kenchan23/restaurant-dashboard#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-util": "^3.0.6",
+    "jshint-stylish": "^2.0.1"
+  },
+  "dependencies": {
+    "wiredep": "^2.2.2"
+  }
+}
