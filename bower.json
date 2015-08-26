@@ -1,0 +1,23 @@
+{
+  "name": "restaurant-dashboard",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kenchan23/restaurant-dashboard",
+  "authors": [
+    "Ken Chan <ken.chan@nyu.edu>"
+  ],
+  "keywords": [
+    "angularjs",
+    "lodash",
+    "cartodb",
+    "leaflet",
+    "d3js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
