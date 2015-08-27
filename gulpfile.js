@@ -3,7 +3,11 @@ var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 
 /* Create a default task. */
-gulp.task('default', ['watch']);
+/* Configure the files to watch and target which tasks to utilize on file changes. */
+gulp.task('default', ['wiredep', 'jshint'], function(){
+  gulp.watch('assets/bower_components', ['wiredep']);
+  gulp.watch('assets/scripts/*.js', ['jshint']);
+});
 
 /* Configure the jshint task. */
 gulp.task('jshint', function(){
@@ -20,10 +24,4 @@ gulp.task('wiredep', function(){
         directory: 'assets/bower_components'
       }))
       .pipe(gulp.dest('./'));
-});
-
-/* Configure the files to watch and which tasks to utilize on file changes. */
-gulp.task('watch', function(){
-  gulp.watch('assets/scripts/*.js', ['jshint']);
-  gulp.watch('assets/bower_components', ['wiredep']);
 });

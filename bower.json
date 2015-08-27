@@ -22,9 +22,10 @@
   ],
   "dependencies": {
     "angular": "angularjs#~1.4.4",
+    "angular-resource": "~1.4.4",
     "d3": "~3.5.6",
     "jquery": "~2.1.4",
-    "leaflet": "~0.7.3",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "mapbox.js": "~2.2.1"
   }
 }
