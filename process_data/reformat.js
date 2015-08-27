@@ -2,11 +2,12 @@ var path = require("path");
 var jsonfile = require("jsonfile");
 var _ = require("lodash");
 var async = require("async");
+var request = require("request");
 
 /* Import the configuration file with API key. */
-var config = require("");
+var apiKey = require("./config").key;
 
-/**/
+/* https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJiZfMBoZYwokRhMJwRoMM2xQ&key=AIzaSyA00AhzBP-1YTuYjtnTXXNh4z_4Jcl6SQ8 */
 
 /* IIFE */
 (function(){
@@ -22,8 +23,16 @@ var config = require("");
 
     async.forEachOf(data, function (value, key, callback) {
       asyncFuncs.push(function(callback){
-        setNewProps(value);
-        callback(null, value);
+        request('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + value.GooglePlacesID + '&key=' + apiKey, function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            // console.log(body) // Show the HTML for the Google homepage.
+            setNewProps(value, body);
+          }
+          else {
+            setNewProps(value);
+          }
+          callback(null, value);
+        });
       });
       callback();
     }, function (err) {
@@ -57,10 +66,10 @@ var config = require("");
   });
 
   /*
-   * Set WithinLastWeek and MostRecent properties.
+   * Set WithinLastWeek, MostRecent, Ratings and ContactInformation properties.
    * value parameter references the actual raw data.
    */
-  var setNewProps = function(value){
+  var setNewProps = function(value, body){
     var newArray = _.sortBy(_.values(value.Evaluations), function(item){
       return [new Date(item.EvaluationDate)];
     });
@@ -73,6 +82,30 @@ var config = require("");
                         mostRecentDate.getMinutes().padLeft(),
                         mostRecentDate.getSeconds().padLeft()].join(':');
     value.WithinLastWeek = (mostRecentDate >= lastWeekDate) ? true : false;
+
+    console.log(value.GooglePlacesID);
+
+    value.PhoneNumber = null;
+    value.OpeningHours = null;
+    value.GoogleRating = null;
+    value.GoogleRatingsTotal = null;
+    value.GoogleRecentReviews = null;
+    value.Website = null;
+
+    if(body){
+      body = JSON.parse(body);
+
+      if(typeof(body) === 'object' && 'result' in body){
+        var result = body.result;
+
+        value.PhoneNumber =  ('formatted_phone_number' in result) ? result.formatted_phone_number : null;
+        value.OpeningHours = ('opening_hours' in result) ? result.opening_hours.weekday_text : null;
+        value.GoogleRating = ('rating' in result) ? result.rating : null;
+        value.GoogleRatingsTotal = ('user_ratings_total' in result) ? result.user_ratings_total : null;
+        value.GoogleRecentReviews = ('reviews' in result) ? result.reviews : null;
+        value.Website = ('website' in result) ? result.website : null;
+      }
+    }
   };
 
   var groupRestaurants = function(data){
