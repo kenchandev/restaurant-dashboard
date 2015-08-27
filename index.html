@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Servy Sales Pipeline</title>
+  <title>Restaurant Sales Dashboard</title>
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,7 +10,10 @@
   <link rel="shortcut icon" href="assets/images/sales.png">
 
   <link type="text/css" rel="stylesheet" href="assets/stylesheets/reset.css"/>
+  <link type="text/css" rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link type="text/css" rel="stylesheet" href="assets/bower_components/font-awesome/css/font-awesome.css"/>
   <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600"/>
+  <link type="text/css" rel="stylesheet" href="assets/stylesheets/leaflet-markers.css"/>
   <link type="text/css" rel="stylesheet" href="assets/bower_components/mapbox.js/mapbox.css"/>
   <!--[if lte IE 8]>
     <link type="text/css" rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
@@ -21,6 +24,7 @@
   <script src="assets/bower_components/jquery/dist/jquery.js"></script>
   <script src="assets/bower_components/angular/angular.js"></script>
   <script src="assets/bower_components/angular-resource/angular-resource.js"></script>
+  <script src="assets/bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="assets/bower_components/d3/d3.js"></script>
   <script src="assets/bower_components/lodash/lodash.js"></script>
   <script src="assets/bower_components/mapbox.js/mapbox.js"></script>
@@ -31,10 +35,11 @@
 
   <div class="sidepanel">
     <div class="wrapper">
-      <div class="context subheader">
+      <!-- <div class="context subheader">
         <p>Map created by <a href="#">{Link to your website}</a></p>
-      </div>
-      <h1>Title of your visualization</h1>
+      </div> -->
+
+      <h1>Restaurant Sales Dashboard</h1>
       <p>An earthquake of magnitude 9.0 occurred March 11, 2012, off the northeastern Pacific coast of Japan. The earthquake was followed by a tsunami which would reach 9.3m or higher at Fukushima Prefecture. <a href=''>Combined, the two claimed almost</a> 20,000 lives in the region of Tohoku and triggered nuclear meltdowns at three reactors in Fukushima nuclear plant.</p>
 
       <!--Copy and paste the div below for creating content blocks-->
@@ -52,6 +57,8 @@
 
   <!-- <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script> -->
   <!-- Custom Scripts -->
+  <script type="text/javascript" src="assets/scripts/leaflet-markers.js"></script>
   <script type="text/javascript" src="assets/scripts/dashboard.js"></script>
+  <script type="text/javascript" src="assets/scripts/map.ctrl.js"></script>
 </body>
 </html>

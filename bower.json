@@ -23,7 +23,9 @@
   "dependencies": {
     "angular": "angularjs#~1.4.4",
     "angular-resource": "~1.4.4",
+    "bootstrap": "~3.3.5",
     "d3": "~3.5.6",
+    "font-awesome": "fontawesome#~4.4.0",
     "jquery": "~2.1.4",
     "lodash": "~3.10.1",
     "mapbox.js": "~2.2.1"
