@@ -3,8 +3,15 @@
 /* IIFE */
 /* Don't pollute the global scope! */
 (function(){
+  /*
+   * $http proves to be low-level.
+   * The $resource service returns a resource object with convenient methods mapping to their HTTP verbs' counterparts.
+   * Must inject ui.bootstrap for accordion.
+   */
   var app = angular.module('app', [
-    'ngResource'
+    'ngResource',
+    'ngAnimate',
+    'ui.bootstrap'
   ]);
 
   app.factory('Restaurant', ['$resource', function($resource){

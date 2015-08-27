@@ -22,6 +22,9 @@
     "jshint-stylish": "^2.0.1"
   },
   "dependencies": {
+    "async": "^1.4.2",
+    "jsonfile": "^2.2.1",
+    "lodash": "^3.10.1",
     "wiredep": "^2.2.2"
   }
 }

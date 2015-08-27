@@ -4,9 +4,9 @@
 /* Don't pollute the global scope! */
 (function(){
   angular.module('app')
-         .controller('MapController', ['$scope', 'Restaurant', 'Neighborhood', MapController]);
+         .controller('MapController', ['$scope', '$q', 'Restaurant', 'Neighborhood', MapController]);
 
-  function MapController($scope, Restaurant, Neighborhood){
+  function MapController($scope, $q, Restaurant, Neighborhood){
     $scope.data = {};
 
     L.mapbox.accessToken = 'pk.eyJ1Ijoia2VuY2hhbiIsImEiOiJpVTRzNG1RIn0.QDivyrM040Y1olXFj8UskA';
@@ -19,15 +19,14 @@
                .addLayer(mapboxTiles)
                .setView([40.706363, -74.009096], 13);
 
-    Restaurant.query(function(data){
-      console.log('Restaurant Data:', data);
-      plotRestaurants(map, data);
-    });
-
-    Neighborhood.query(function(data){
-      console.log('Neighborhood Data:', data);
-      renderNeighborhoodBoundaries(map, data);
-    });
+   $q.all([
+     Restaurant.query().$promise,
+     Neighborhood.query().$promise
+   ]).then(function(result){
+     console.log('Result', result);
+     plotRestaurants(map, result[0]);
+     renderNeighborhoodBoundaries(map, result[1]);
+   });
 
     var plotRestaurants = function(map, data){
       var purpleMarker = L.AwesomeMarkers.icon({

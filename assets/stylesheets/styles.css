@@ -13,6 +13,8 @@ h1 {
   letter-spacing: -1px;
   color: rgba(105, 21, 73, 1); /* #333 */
   line-height: 33px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 h3 {
@@ -21,6 +23,10 @@ h3 {
   color: #CCC;
   text-transform: uppercase;
   margin: 10px 0 0 0;
+}
+
+hr {
+  border-top: 1px solid #ddd;
 }
 
 p {
@@ -34,7 +40,8 @@ a, a:visited {
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .wrapper {
@@ -82,6 +89,36 @@ a:hover {
 
 .titleBlock {
   text-align: right;
+}
+
+.search-bar-icon {
+  color: white;
+  background-color: #691549;
+  border: 1px solid #691549;
+}
+
+.restaurants-list {
+  margin-top: 20px;
+}
+
+.restaurants-list .restaurants-list-header {
+  color: #691549;
+}
+
+.restaurants-list .restaurants-list-header:hover {
+  text-decoration: none;
+}
+
+.restaurants-list .restaurants-list-header span.glyphicon.glyphicon-cutlery {
+  margin-right: 10px;
+}
+
+.restaurants-list-header-right {
+  float: right;
+}
+
+.restaurants-list-header-left {
+  /* float: left; */
 }
 
 @media only screen and (max-width: 768px) {
