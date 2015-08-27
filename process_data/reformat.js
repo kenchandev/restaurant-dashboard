@@ -3,29 +3,26 @@ var jsonfile = require("jsonfile");
 var _ = require("lodash");
 var async = require("async");
 
+/* Import the configuration file with API key. */
+var config = require("");
+
+/**/
+
 /* IIFE */
 (function(){
   var srcPath = path.join("..", "assets", "data", "servy_data.json");
   var dstPath = path.join("..", "assets", "data", "modified_servy_data.json");
   var asyncFuncs = [];
+  var modifiedData;
   var lastWeekDate = new Date();
-  lastWeekDate.setTime(lastWeekDate.getTime() - 14 * 24 * 60 * 60 * 1000);
+  lastWeekDate.setTime(lastWeekDate.getTime() - 7 * 24 * 60 * 60 * 1000);
 
   jsonfile.readFile(srcPath, function(err, data) {
     data = data.Report[0];
-    // console.log(JSON.stringify(data));
-    // _.forIn(data, function(value, key){
-    //   console.log(data[key]);
-    //   asyncFuncs.push(function(callback){
-    //
-    //     callback(null, 'Finished...');
-    //   });
-    // });
 
     async.forEachOf(data, function (value, key, callback) {
       asyncFuncs.push(function(callback){
-        lastWeekProp(value);
-        mostRecentProp(value);
+        setNewProps(value);
         callback(null, value);
       });
       callback();
@@ -34,31 +31,61 @@ var async = require("async");
         console.error(err.message);
     });
 
-    async.parallel(asyncFuncs, function(err, results){
-      // jsonfile.writeFile(dstPath, results, function(err){
-      //   console.log('Complete!');
-      // });
-      jsonfile.writeFile(dstPath, data, function(){
+    async.parallel(asyncFuncs, function(err, parallelResults){
+      async.series([
+        function(callback){
+          modifiedData = {
+            Report: []
+          };
 
-      });
-      // console.log(JSON.stringify(data, '\t'));
-      console.log("Done.")
+          /* Group restaurants by name. */
+          modifiedData.Report.push(groupRestaurants(data));
+          callback(null, 'Grouped data by restaurant name.');
+        },
+        function(callback){
+          /* Write new .json file. */
+          jsonfile.writeFile(dstPath, modifiedData, {spaces: 4}, function(err){
+            console.log(err);
+            callback(null, 'Finished writing to file.');
+          });
+        }
+      ], function(err, seriesResults){
+        console.log(err);
+        console.log(seriesResults);
+      })
     });
   });
 
-
-
-  var lastWeekProp = function(value){
+  /*
+   * Set WithinLastWeek and MostRecent properties.
+   * value parameter references the actual raw data.
+   */
+  var setNewProps = function(value){
     var newArray = _.sortBy(_.values(value.Evaluations), function(item){
       return [new Date(item.EvaluationDate)];
     });
 
     var mostRecentDate = new Date(newArray[newArray.length - 1].EvaluationDate);
-    if(value.RestaurantID === 5501) console.log(mostRecentDate, lastWeekDate)
+    value.MostRecent = [mostRecentDate.getFullYear(),
+                       (mostRecentDate.getMonth()+1).padLeft(),
+                        mostRecentDate.getDate().padLeft()].join('-') + ' ' +
+                       [mostRecentDate.getHours().padLeft(),
+                        mostRecentDate.getMinutes().padLeft(),
+                        mostRecentDate.getSeconds().padLeft()].join(':');
     value.WithinLastWeek = (mostRecentDate >= lastWeekDate) ? true : false;
   };
 
-  var mostRecentProp = function(value){
-    // value.MostRecentEvaluation =
+  var groupRestaurants = function(data){
+    return _.groupBy(_.values(data), function(d){
+      return d.Name;
+    });
   };
+
+  /*
+   * Helper function for formatting date.
+   */
+  Number.prototype.padLeft = function(base,chr){
+    var  len = (String(base || 10).length - String(this).length)+1;
+    return len > 0? new Array(len).join(chr || '0')+this : this;
+  }
 }());
