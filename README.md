@@ -10,7 +10,7 @@ Clone this repository and navigate to the directory.
     bower install
     python -m SimpleHTTPServer 3000
 
-* Create a config.js file inside the process_data to utilize the Google Places API.
+Create a config.js file inside the process_data to utilize the Google Places API.
 
     module.exports = {
       key: 'API_KEY'
