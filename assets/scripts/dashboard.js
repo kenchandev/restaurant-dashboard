@@ -15,7 +15,7 @@
   ]);
 
   app.factory('Restaurant', ['$resource', function($resource){
-    return $resource('assets/data/servy_data.json', {}, {
+    return $resource('assets/data/modified_servy_data.json', {}, {
       query: { method: 'GET', isArray: false }
     });
   }]);

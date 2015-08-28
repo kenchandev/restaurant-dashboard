@@ -44,22 +44,75 @@
       <h1>Restaurant Sales Dashboard</h1>
       <hr/>
 
-      <div ng-controller="SearchController">
+      <div id="search-pane" ng-controller="SearchController">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search for Restaurant" aria-describedby="basic-addon1" ng-model="query.Name">
           <span class="input-group-addon search-bar-icon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
         </div>
 
+        <div id="filter-options" class="input-group" role="group">
+          <div class="filter-option-group">
+            <input type="radio" name="filter-option" ng-click="changeSortTo('TotalLocations')" checked>
+            <label>Number of Locations</label>
+          </div>
+          <div class="filter-option-group">
+            <input type="radio" name="filter-option" ng-click="changeSortTo('TotalEvals')">
+            <label>Most Evaluations (Overall)</label>
+          </div>
+          <div class="filter-option-group">
+            <input type="radio" name="filter-option" ng-click="changeSortTo('TotalEvalsLastWeek')">
+            <label>Most Evaluations (Last Week)</label>
+          </div>
+          <div class="filter-option-group">
+            <input type="radio" name="filter-option" ng-click="changeSortTo('PoorestRating')">
+            <label>Poorest Reputation</label>
+          </div>
+        </div>
+
         <accordion close-others="true">
-          <accordion-group class="restaurants-list" is-open="false" ng-repeat="restaurant in data.restaurants | filter:query | limitTo:20">
+          <accordion-group class="restaurants-list" is-open="false" ng-repeat="restaurant in data.restaurants | filter:query | orderBy:sort | startFrom:currentPage*pageSize | limitTo:pageSize">
             <accordion-heading>
-              <span class="restaurants-list-header"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><span class="restaurants-list-header-left">{{ restaurant.Name }}</span><span class="restaurants-list-header-right">ID - {{ restaurant.RestaurantID }}</span></span>
+              <span class="restaurants-list-header">
+                <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>
+                <span class="restaurants-list-header-left">{{ restaurant.Name }}</span>
+                <span class="restaurants-list-header-right">
+                  <span ng-hide="sortOptions.PoorestRating">
+                    {{ restaurant.PoorestRating }}
+                    <span id="worst-online-rating" class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                  </span>
+                  <span ng-hide="sortOptions.TotalEvalsLastWeek">
+                    {{ restaurant.TotalEvalsLastWeek }}
+                    <span id="worst-online-rating" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                  </span>
+                  <span ng-hide="sortOptions.TotalEvals">
+                    {{ restaurant.TotalEvals }}
+                    <span id="worst-online-rating" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                  </span>
+                  <span ng-hide="sortOptions.TotalLocations">
+                    {{ restaurant.TotalLocations }}
+                    <span id="worst-online-rating" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                  </span>
+                </span>
+              </span>
             </accordion-heading>
             <div class="accordion-Name">
-
+              <div ng-repeat="location in restaurant.Locations">
+                <h3>Hello!</h3>
+              </div>
             </div>
           </accordion-group>
         </accordion>
+
+        <div id="list-buttons">
+          <div id="back-button-space">
+            <button id="back-button" type="button" class="btn btn-default" ng-disabled="currentPage==0" ng-click="currentPage=currentPage-1"><span class="glyphicon glyphicon-arrow-left"></span>Previous</button>
+          </div>
+          <div id="current-page" ngCloak><h2>{{ currentPage + 1 }} / {{ numberOfPages() }}</h2></div>
+          <div id="forward-button-space">
+            <button id="forward-button" type="button" class="btn btn-default" ng-disabled="currentPage>=data.restaurants.length/pageSize-1" ng-click="currentPage=currentPage+1">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
+          </div>
+        </div>
+
       </div>
 
 
@@ -76,25 +129,24 @@
         </div>
       </div> -->
 
-      <!--Copy and paste the div below for creating content blocks-->
       <h3>Description</h3>
-      <p>The size and age of the Cosmos are beyond ordinary human understanding. Lost somewhere between immensity and eternity is our tiny planetary home. In a cosmic perspective, most human concerns seem insignificant, even petty. And yet our species is young and curious and brave and shows much promise. In the last few millennia we have made the most astonishing, unexpected discoveries about the Cosmos and our place within it, explorations that are exhilarating to consider. They remind us that humans have evolved to wonder, that understanding is a joy, that knowledge is prerequisite to survival. I believe our future depends powerfully on how well we understand this Cosmos in which we float like a mote of dust in the morning sky.</p>
+      <p>
+        Sales associates will be able to prioritize New York based sales leads by viewing evaluations in an interactive dashboard. Numerous filtering options are provided to give order to every search!
+      </p>
 
-      <h3>Sources</h3>
-      <p>Unexpected discoveries about the <a href="#">Cosmos and our place</a> within it, explorations that are <a href="#">exhilarating</a> to consider. They remind us that humans have evolved to wonder, that understanding is a joy, that knowledge is prerequisite to survival. I believe our future depends powerfully on how well we understand this.</p>
+      <h3>License</h3>
+      <p>MIT</p>
 
-      <div class="context footer">
-        <!-- <p>Create your maps with ease using <a href="http://cartodb.com">CartoDB</a></p></p> -->
-      </div>
+      <!-- <div class="context footer"></div> -->
     </div>
   </div>
 
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script> -->
   <!-- Custom Scripts -->
   <script type="text/javascript" src="assets/scripts/leaflet-markers.js"></script>
   <script type="text/javascript" src="https://api.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.0.2/leaflet-pip.js"></script>
   <script type="text/javascript" src="assets/scripts/dashboard.js"></script>
   <script type="text/javascript" src="assets/scripts/map.ctrl.js"></script>
   <script type="text/javascript" src="assets/scripts/search.ctrl.js"></script>
+  <script type="text/javascript" src="assets/scripts/list.fltr.js"></script>
 </body>
 </html>

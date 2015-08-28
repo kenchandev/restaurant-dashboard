@@ -102,7 +102,7 @@ a:hover {
 }
 
 .restaurants-list .restaurants-list-header {
-  color: #691549;
+  color: white;
 }
 
 .restaurants-list .restaurants-list-header:hover {
@@ -119,6 +119,72 @@ a:hover {
 
 .restaurants-list-header-left {
   /* float: left; */
+}
+
+#filter-options {
+  margin: 0 auto;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+input[name='filter-option'] {
+  margin-right: 5px;
+}
+
+.panel-default {
+  border-color: #691549;
+}
+
+.panel-default > .panel-heading {
+  color: #333;
+  background-color: #691549;
+  border-color: #691549;
+}
+
+#worst-online-rating {
+  margin-left: 5px;
+}
+
+#back-button {
+  width: 100px;
+  background-color: #3B99FC;
+  color: white;
+  float: left;
+}
+
+#back-button span {
+  margin-right: 5px;
+}
+
+#forward-button {
+  width: 100px;
+  background-color: #3B99FC;
+  color: white;
+  float: right;
+}
+
+#forward-button span {
+  margin-left: 5px;
+}
+
+#search-pane {
+  margin-bottom: 20px;
+}
+
+#back-button-space {
+  width: 33%;
+  display: inline-block;
+}
+
+#current-page {
+  width: 32%;
+  display: inline-block;
+  text-align: center;
+}
+
+#forward-button-space {
+  width: 33%;
+  display: inline-block;
 }
 
 @media only screen and (max-width: 768px) {

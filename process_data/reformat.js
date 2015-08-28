@@ -44,11 +44,11 @@ var apiKey = require("./config").key;
       async.series([
         function(callback){
           modifiedData = {
-            Report: []
+            Restaurants: null
           };
 
           /* Group restaurants by name. */
-          modifiedData.Report.push(groupRestaurants(data));
+          modifiedData.Restaurants = groupRestaurants(data);
           callback(null, 'Grouped data by restaurant name.');
         },
         function(callback){
@@ -81,7 +81,12 @@ var apiKey = require("./config").key;
                        [mostRecentDate.getHours().padLeft(),
                         mostRecentDate.getMinutes().padLeft(),
                         mostRecentDate.getSeconds().padLeft()].join(':');
-    value.WithinLastWeek = (mostRecentDate >= lastWeekDate) ? true : false;
+    value.TotalEvalsLastWeek = _.filter(newArray, function(n) {
+      var evalDate = new Date(n.EvaluationDate);
+      return evalDate >= lastWeekDate;
+    }).length;
+
+    value.TotalEvals = _.keys(newArray).length;
 
     console.log(value.GooglePlacesID);
 
@@ -109,16 +114,40 @@ var apiKey = require("./config").key;
   };
 
   var groupRestaurants = function(data){
-    return _.groupBy(_.values(data), function(d){
+    var groupedData = _.groupBy(_.values(data), function(d){
       return d.Name;
+    });
+
+    return _.map(groupedData, function(value, key){
+      var worstRatedRestaurant = _.min(value, function(d){
+        if(d.GoogleRating !== null)
+          return d.GoogleRating;
+      });
+
+      var totalEvals = _.sum(value, function(d){
+          return d.TotalEvals;
+      });
+
+      var totalEvalsLastWeek = _.sum(value, function(d){
+        return d.TotalEvalsLastWeek;
+      });
+
+      return {
+        Name: key,
+        Locations: value,
+        TotalLocations: value.length,
+        PoorestRating: worstRatedRestaurant.GoogleRating,
+        TotalEvalsLastWeek: totalEvalsLastWeek,
+        TotalEvals: totalEvals
+      };
     });
   };
 
   /*
    * Helper function for formatting date.
    */
-  Number.prototype.padLeft = function(base,chr){
-    var  len = (String(base || 10).length - String(this).length)+1;
-    return len > 0? new Array(len).join(chr || '0')+this : this;
+  Number.prototype.padLeft = function(base, chr){
+    var len = (String(base || 10).length - String(this).length) + 1;
+    return len > 0 ? new Array(len).join(chr || '0') + this : this;
   }
 }());

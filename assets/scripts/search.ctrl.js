@@ -1,5 +1,5 @@
 'use strict';
-var hello;
+
 /* IIFE */
 /* Don't pollute the global scope! */
 (function(){
@@ -7,55 +7,50 @@ var hello;
          .controller('SearchController', ['$scope', '$q', 'Restaurant', 'Neighborhood', SearchController]);
 
   function SearchController($scope, $q, Restaurant, Neighborhood){
+    /* Container for storing data from GET request. */
     $scope.data = {};
+    /* List is ordered based on most locations for each restaurant chain. */
+    $scope.sort = '-TotalLocations';
+    /* Holds filtering options for dynamically switching ng-repeat filter. */
+    $scope.sortOptions = {
+      TotalLocations: false,
+      PoorestRating: true,
+      TotalEvalsLastWeek: true,
+      TotalEvals: true
+    };
+    /* Change sorting option. */
+    $scope.changeSortTo = function(option){
+      _.forEach($scope.sortOptions, function(value, key){
+        (key === option) ? ($scope.sortOptions[key] = false) : ($scope.sortOptions[key] = true);
+      });
+
+      /* Prepending '-' denotes descending order. */
+      switch(option){
+        case 'TotalLocations':
+        case 'TotalEvalsLastWeek':
+        case 'TotalEvals':
+          $scope.sort = '-' + option;
+          break;
+        default:
+          $scope.sort = option;
+          break;
+      }
+    };
+
+    /* Handle logic for multiple "pages" on SPA. */
+    $scope.currentPage = 0;
+    $scope.pageSize = 25;
+    $scope.numberOfPages = function(){
+      return (typeof($scope.data.restaurants) !== 'undefined') ? Math.ceil($scope.data.restaurants.length / $scope.pageSize) : 'Unknown';
+    };
 
     $q.all([
       Restaurant.query().$promise,
       Neighborhood.query().$promise
     ]).then(function(result){
-      console.log('Result', result);
-      $scope.data.restaurants = _.values(result[0].Report[0]);
-      hello = $scope.data.restaurants;
+      // console.log('Result', result);
+      $scope.data.restaurants = result[0].Restaurants;
       $scope.data.geoNeighborhoods = result[1];
-      console.log($scope.data.restaurants);
-      console.log($scope.data.geoNeighborhoods);
-      // categorizeByNeighborhoods();
     });
-
-
-    // Restaurant.query(function(data){
-    //
-    //   // categorizeByNeighborhoods($scope.data.restaurants);
-    // });
-
-    // Neighborhood.query(function(data){
-    //   console.log('Neighborhood Data:', data);
-    //   renderNeighborhoodBoundaries(map, data);
-    // });
-
-    $scope.groups = [
-      {
-        title: 'Dynamic Group Header - 1',
-        content: 'Dynamic Group Body - 1'
-      },
-      {
-        title: 'Dynamic Group Header - 2',
-        content: 'Dynamic Group Body - 2'
-      }
-    ];
-
-    // var categorizeByNeighborhoods = function(){
-    //
-    //
-    //   var gjLayer = L.geoJson(stateJSON);
-    //   console.log(gjLayer);
-    //
-    //   _($scope.data.restaurants).forEach(function(d){
-    //     console.log(d);
-    //     console.log(leafletPip.pointInLayer([d.Latitude, d.Longitude], gjLayer, true));
-    //   }).value();
-    // };
-
-
   };
 }());

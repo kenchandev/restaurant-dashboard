@@ -34,10 +34,12 @@
         markerColor: 'purple'
       });
 
-      _.forEach(data.Report[0], function(value, key){
-        L.marker([value.Latitude, value.Longitude], {icon: purpleMarker})
-         .bindPopup(value.Name)
-         .addTo(map);
+      _.forEach(data.Restaurants, function(value, key){
+        _(value.Locations).forEach(function(r) {
+          L.marker([r.Latitude, r.Longitude], {icon: purpleMarker})
+           .bindPopup(r.Name)
+           .addTo(map);
+        }).value();
       });
     };
 
