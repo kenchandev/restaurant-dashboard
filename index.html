@@ -107,7 +107,9 @@
           <div id="back-button-space">
             <button id="back-button" type="button" class="btn btn-default" ng-disabled="currentPage==0" ng-click="currentPage=currentPage-1"><span class="glyphicon glyphicon-arrow-left"></span>Previous</button>
           </div>
-          <div id="current-page" ngCloak><h2>{{ currentPage + 1 }} / {{ numberOfPages() }}</h2></div>
+          <div id="current-page" ngCloak>
+            {{ currentPage + 1 }} / {{ numberOfPages() }}
+          </div>
           <div id="forward-button-space">
             <button id="forward-button" type="button" class="btn btn-default" ng-disabled="currentPage>=data.restaurants.length/pageSize-1" ng-click="currentPage=currentPage+1">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
           </div>

@@ -168,12 +168,13 @@ input[name='filter-option'] {
 }
 
 #search-pane {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 #back-button-space {
   width: 33%;
   display: inline-block;
+  float: left;
 }
 
 #current-page {
@@ -185,6 +186,7 @@ input[name='filter-option'] {
 #forward-button-space {
   width: 33%;
   display: inline-block;
+  float: right;
 }
 
 @media only screen and (max-width: 768px) {

@@ -4,11 +4,17 @@ Salespeople can make informed decisions based on restaurant evaluations and othe
 
 ##  Usage
 
-Clone this repository and navigate to the directory.
+Clone this repository and navigate to the directory. Execute gulpfile.js code to identify any potential errors within JavaScript code and inject Bower dependencies automatically when installed.
+
+Terminal Tab #1:
 
     npm install
     bower install
     python -m SimpleHTTPServer 3000
+
+Terminal Tab #2:
+
+    gulp
 
 Create a config.js file inside the process_data to utilize the Google Places API.
 
