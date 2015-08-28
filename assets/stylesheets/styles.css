@@ -189,6 +189,43 @@ input[name='filter-option'] {
   float: right;
 }
 
+.location-item {
+  background-color: #CCC;
+  border-radius: 3px;
+  height: 150px;
+  padding: 5px;
+  overflow: scroll;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #505050 !important;
+}
+
+.location-item h3 {
+  color: #505050 !important;
+}
+
+.location-item h3 a{
+  color: #505050 !important;
+}
+
+.location-item h3 a:visited{
+  color: #505050 !important;
+}
+
+.location-item h5 {
+  font-size: 10px;
+}
+
+.location-name {
+  display: inline-block;
+}
+
+.location-restaurant-id {
+  display: inline-block;
+  clear: both;
+  float: right;
+}
+
 @media only screen and (max-width: 768px) {
   .map {
     position: absolute; /* inherit */

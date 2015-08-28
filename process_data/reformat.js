@@ -7,7 +7,7 @@ var request = require("request");
 /* Import the configuration file with API key. */
 var apiKey = require("./config").key;
 
-/* https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJiZfMBoZYwokRhMJwRoMM2xQ&key=AIzaSyA00AhzBP-1YTuYjtnTXXNh4z_4Jcl6SQ8 */
+/* https://maps.googleapis.com/maps/api/place/details/json?placeid='PLACE_ID'&key='API_KEY' */
 
 /* IIFE */
 (function(){

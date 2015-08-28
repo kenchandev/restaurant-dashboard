@@ -96,8 +96,16 @@
               </span>
             </accordion-heading>
             <div class="accordion-Name">
-              <div ng-repeat="location in restaurant.Locations">
-                <h3>Hello!</h3>
+              <div ng-repeat="location in restaurant.Locations | orderBy:'GoogleRating' ">
+                <div class="location-item">
+                  <span><h3 class="location-name"><a href="{{ location.Website }}" target="_blank">{{ location.Name }}</a></h3><h3 class="location-restaurant-id">{{ location.RestaurantID }}</h3></span>
+                  <span><h5 class="location-address"><strong>Address: </strong>{{ location.Address }}, {{ location.State }} {{ location.Zip }}</h5></span>
+                  <span><h5 class="location-phone-number"><strong>Phone: </strong>{{ location.PhoneNumber }}</h5></span>
+                  <span><h5 class="location-rating"><strong>Google Rating: </strong>{{ location.GoogleRating || 'Unknown' }}</h5></span>
+                  <span><h5 class="location-most-recent-evaluation"><strong>Most Recent Evaluation: </strong>{{ location.MostRecent }}</h5></span>
+                  <span><h5 class="location-total-evaluations-last-week"><strong>Total Evaluations Within Last Week: </strong>{{ location.TotalEvalsLastWeek }}</h5></span>
+                  <span><h5 class="location-total-evaluations-overall"><strong>Total Evaluations Overall: </strong>{{ location.TotalEvals }}</h5></span>
+                </div>
               </div>
             </div>
           </accordion-group>
@@ -114,22 +122,7 @@
             <button id="forward-button" type="button" class="btn btn-default" ng-disabled="currentPage>=data.restaurants.length/pageSize-1" ng-click="currentPage=currentPage+1">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
           </div>
         </div>
-
       </div>
-
-
-      <!-- <div class="row">
-        <div class="col-md-8">
-          <p>
-            An earthquake of magnitude 9.0 occurred March 11, 2012, off the northeastern Pacific coast of Japan. The earthquake was followed by a tsunami which would reach 9.3m or higher at Fukushima Prefecture. <a href=''>Combined, the two claimed almost</a> 20,000 lives in the region of Tohoku and triggered nuclear meltdowns at three reactors in Fukushima nuclear plant.
-          </p>
-        </div>
-        <div class="col-md-4">
-          <p>
-            An earthquake of magnitude 9.0 occurred March 11, 2012, off the northeastern Pacific coast of Japan. The earthquake was followed by a tsunami which would reach 9.3m or higher at Fukushima Prefecture. <a href=''>Combined, the two claimed almost</a> 20,000 lives in the region of Tohoku and triggered nuclear meltdowns at three reactors in Fukushima nuclear plant.
-          </p>
-        </div>
-      </div> -->
 
       <h3>Description</h3>
       <p>

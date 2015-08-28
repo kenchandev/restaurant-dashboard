@@ -1,0 +1,45 @@
+This application was built to be desktop and mobile responsive, and it harnesses the following front-end libraries:
+  - AngularJS
+  - jQuery
+  - Mapbox
+  - leaflet.js (packaged with Mapbox)
+  - lodash
+
+To run on localhost, navigate to this project's repository and execute the following command:
+
+  python -m SimpleHTTPServer 3000
+
+Inside your favorite browser, enter in 'localhost:3000' into the address bar and load the web application.
+
+My objective was to provide a clean, yet intuitive interface. Two panels were developed, one with an interactive map view for better understanding restaurants from a locality perspective, and the other with a more granular focus on providing more in-depth details on restaurants.
+
+A map-view was developed to respond to the need for listing restaurants by neighborhood. The main interaction was to have the user click on a geoJSON polygon on the mapping interface, which would re-render the list of restaurants on the right-hand side-bar with those restaurants within that corresponding neighborhood. Unfortunately, the current set of geoJSON polygons does not work with the leaflet-pip library, which helps determine if a given pair of longitudinal and latitudinal coordinates lie within a geoJSON polygon, for unknown reasons. Hence, this feature is not working right now.
+
+For now, the user can click on a restaurant pin, see the corresponding restaurant's name, and search it within the search bar.
+
+On the right-hand, the user can search for restaurants, and within each list item is information on all of the restaurants within that particular chain.
+
+Four filtering/sorting options are provided to order the list in the following manner:
+  - Number of locations in descending order (first page has restaurants with most locations)
+  - Most evaluations in descending order (first page has restaurants with most evaluations)
+  - Most evaluations in the last week (first page has restaurants with most evaluations in the last week)
+  - Poorest reputation in ascending order (first page has restaurants with worst reputations)
+* Execute the Node.js script on a daily basis to update this information (convert to cron job or use a background task runner).
+
+Bower was utilized to manage front-end dependencies, and Gulp helped to automate the injection of these dependencies and checked the JavaScript code for any potential errors (jshint).
+
+Given more time, d3.js visualizations will be integrated into the application.
+
+** Interesting Note: McDonald's has the most number of locations, but the poorest rating overall.
+
+The provided dataset did not group restaurants together into a single entry, nor did have the necessary information asked for within the specifications (i.e.: total evaluations in the last week, contact information, online ratings, etc.). Hence, I wrote a Node.js script that utilizes the lodash and async modules to asynchronously process the data quickly with the only bottleneck being the GET requests to the Google Places API. Online ratings were obtained from this API since each restaurant within the dataset had a corresponding Google Places ID value.
+
+See './assets/data/modified_servy_data' for how I processed the data to minimize the amount of code needed for writing the front-end.
+
+For more clarity, feel free to contact me!
+
+Future Work:
+  - Get neighborhood filtering to work using leaflet-pip library.
+  - Get Yelp online ratings.
+  - Implement a tab within the right-hand side-panel that is devoted to visualizations!
+  - Make side-panel into an AngularJS directive.
